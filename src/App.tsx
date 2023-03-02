@@ -1,26 +1,44 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import { useEffect, useState } from 'react';
+import Card from './components/card';
+export interface RootObject {
+  id: string;
+  oldPrice: string;
+  price: string;
+  title: string;
+  seen: boolean;
+  locality: string;
+  date: number;
 }
+
+import { Container, MainTitle, Wrapper } from './components/container';
+function App() {
+    const [data, setData] = useState<RootObject[]>([])
+
+    useEffect(() => {
+        fetch('https://6075786f0baf7c0017fa64ce.mockapi.io/products')
+            .then(data => data.json())
+            .then(data => setData(data))
+    }, [])
+
+    return (
+        <Container>
+            <MainTitle>Похожие объявления</MainTitle>
+            <Wrapper>
+                {data.map(i => {
+                    return <Card id={i.id}
+                        key={i.id}
+                        seen={i.seen} 
+                        locality={i.locality} 
+                        date={i.date} 
+                        title={i.title} 
+                        price={i.price} 
+                        oldPrice={i.oldPrice} />
+                })}
+            </Wrapper>
+        </Container>
+    );
+}
+
+
 
 export default App;
