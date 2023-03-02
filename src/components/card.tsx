@@ -3,7 +3,8 @@ import { RootObject } from '../App'
 import { Flex } from './common'
 export default function Card({title, seen, price, oldPrice, locality, date}:RootObject) {
     return (
-        <CardWrapper>
+        <CardWrapper seen={seen}>
+            {seen && <SeenInfo>Просмотрено</SeenInfo>}
             <Image />
             <CardInfoBlock>
                 <Flex gap={"70px"}>
@@ -23,14 +24,15 @@ export default function Card({title, seen, price, oldPrice, locality, date}:Root
 }
 
 
-const CardWrapper = styled.div`
+const CardWrapper = styled.div<{seen?:boolean}>`
     display: flex;
     flex-direction: column;
     width: 224px;
     height: 368px;
+    position: relative;
     filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 0.1));
     border-radius: 8px;
-    background-color: #ffffff;
+    background-color:${({seen}) => seen ? '#FFF6A5;' : '#ffff'};
 `
 const CardInfoBlock = styled.div`
     padding: 1px 12px 12px 12px;
@@ -39,7 +41,7 @@ const CardInfoBlock = styled.div`
 const Image = styled.img`
     width: 224px;
     height: 260px;
-    background-color: #f2e584;
+    background-color: #63c6f0;
     border-radius: 8px 8px 0 0;
 `
 
@@ -67,10 +69,25 @@ const CardInfo = styled.span`
     line-height: 14px;
     color: #8F8F8F;
 `
-
-
-
-
+ 
+const SeenInfo = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 94px;
+    height: 24px;
+    background: rgba(44, 44, 44, 0.74);
+    border-radius: 8px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    text-align: center;
+    color: #FFFFFF;
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+`
 
 
 
