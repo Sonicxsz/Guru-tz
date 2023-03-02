@@ -1,20 +1,21 @@
 import styled from 'styled-components'
 import { RootObject } from '../App'
 import { Flex } from './common'
-export default function Card({title, seen, price, oldPrice, locality, date}:RootObject) {
+import {memo} from 'react'
+function Card({title, seen, price, oldPrice, locality, date}:RootObject) {
     return (
         <CardWrapper seen={seen}>
             {seen && <SeenInfo>Просмотрено</SeenInfo>}
             <Image />
             <CardInfoBlock>
-                <Flex gap={"70px"}>
+                <Flex>
                     <div>
-                        <Price >{oldPrice}</Price>
-                        <Price actual>{price}</Price>
+                        <Price >{oldPrice} ₽</Price>
+                        <Price actual>{price} ₽</Price>
                     </div>
                 </Flex>
                 <CardTitle>{title}</CardTitle>
-                <Flex gap={"14px"}>
+                <Flex>
                     <CardInfo>{locality}</CardInfo>
                     <CardInfo>{date}</CardInfo>
                 </Flex>
@@ -23,6 +24,7 @@ export default function Card({title, seen, price, oldPrice, locality, date}:Root
     )
 }
 
+export default memo(Card)
 
 const CardWrapper = styled.div<{seen?:boolean}>`
     display: flex;

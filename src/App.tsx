@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import Card from './components/card';
-import { Container, MainTitle, Wrapper } from './components/common';
-
-
+import { CenterWrapper, Container, Flex, MainTitle, MoreButton, Wrapper } from './components/common';
+import ArrowIcon from './components/icons/ArrowIcon';
+import dataService from './service/dataService';
+import Spinner from './components/icons/Spinner';
 
 export interface RootObject {
   id: string;
@@ -13,30 +14,47 @@ export interface RootObject {
   locality: string;
   date: number;
 }
+
 function App() {
-    const [data, setData] = useState<RootObject[]>([])
+    const [items, setItems] = useState<RootObject[]>([])
+    const [offset, setOffset] = useState(1);
+    
+    const {getData, loading, isEnd} = dataService();
+   
+    const handleIncOffset = () => {
+        setOffset(offset => ++offset)
+    }
 
     useEffect(() => {
-        fetch('https://6075786f0baf7c0017fa64ce.mockapi.io/products')
-            .then(data => data.json())
-            .then(data => setData(data))
-    }, [])
+        getData(offset).then(data => setItems([...items, ...data]))
+    }, [offset])
 
+    const showBtnOrMess = !isEnd  
+        ? <MoreButton disabled={loading} dis={loading}  onClick={handleIncOffset}>Показать еще <ArrowIcon/></MoreButton>
+        :  <CenterWrapper>Вы просмотрели все товары</CenterWrapper>
+    
     return (
         <Container>
             <MainTitle>Похожие объявления</MainTitle>
             <Wrapper>
-                {data.map(i => {
-                    return <Card id={i.id}
+                {items.map((i) => {
+                    return  <Card id={i.id}
                         key={i.id}
                         seen={i.seen} 
                         locality={i.locality} 
                         date={i.date} 
                         title={i.title} 
                         price={i.price} 
-                        oldPrice={i.oldPrice} />
+                        oldPrice={i.oldPrice} /> 
+                  
                 })}
             </Wrapper>
+            <Flex justify='flex-end' margin='16px'>
+                {loading && <Spinner/>}
+                {showBtnOrMess}
+            </Flex>
+            
+            
         </Container>
     );
 }
