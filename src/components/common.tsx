@@ -23,3 +23,8 @@ export const Wrapper = styled.div`
     flex-wrap: wrap;
     margin: 0 auto;
 `
+
+export const Flex = styled.div<{gap: string}>`
+    display: flex;
+    gap: ${({gap}) => gap};
+`

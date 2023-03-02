@@ -1,17 +1,22 @@
 import styled from 'styled-components'
 import { RootObject } from '../App'
+import { Flex } from './common'
 export default function Card({title, seen, price, oldPrice, locality, date}:RootObject) {
     return (
         <CardWrapper>
             <Image />
             <CardInfoBlock>
-                <div>
-                    <Price >{oldPrice}</Price>
-                    <Price actual>{price}</Price>
-                </div>
+                <Flex gap={"70px"}>
+                    <div>
+                        <Price >{oldPrice}</Price>
+                        <Price actual>{price}</Price>
+                    </div>
+                </Flex>
                 <CardTitle>{title}</CardTitle>
-                <CardInfo>{locality}</CardInfo>
-                <CardInfo>{date}</CardInfo>
+                <Flex gap={"14px"}>
+                    <CardInfo>{locality}</CardInfo>
+                    <CardInfo>{date}</CardInfo>
+                </Flex>
             </CardInfoBlock>
         </CardWrapper>
     )

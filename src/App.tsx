@@ -1,5 +1,9 @@
 import { useEffect, useState } from 'react';
 import Card from './components/card';
+import { Container, MainTitle, Wrapper } from './components/common';
+
+
+
 export interface RootObject {
   id: string;
   oldPrice: string;
@@ -9,8 +13,6 @@ export interface RootObject {
   locality: string;
   date: number;
 }
-
-import { Container, MainTitle, Wrapper } from './components/container';
 function App() {
     const [data, setData] = useState<RootObject[]>([])
 
