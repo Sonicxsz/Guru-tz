@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-import { RootObject } from "../App";
+import { RootObject } from "../hooks/useFetchData";
 import { imageInterface } from "../components/card";
 
 function dataService () {
@@ -13,16 +13,17 @@ function dataService () {
     const _apiKeyImages = 'zRoV4u-cO1tHzilg-64lUp4h5JHgJw2NI1NoWAD-ZfM';
 
     const getData = async (offset = _offset) => {
+        const countOfItems = 12;
         try{
             setLoading(true)
-            const {data} = await axios.get<RootObject[]>(`${_apiItems}${offset}&limit=12`)
+            const {data} = await axios.get<RootObject[]>(`${_apiItems}${offset}&limit=${countOfItems}`)
             setLoading(false)
-            if(data.length < 12){
+            if(data.length < countOfItems){
                 setIsEnd(true)
             }
             return data
         }catch(error){
-            throw new Error('Somethink went wrong')
+            throw new Error('Somethink went wrong when receiving dataItems')
         }
         
        
@@ -30,12 +31,11 @@ function dataService () {
     }
     const getImages = async () => {
         try{
-            const {data} = await axios.get<imageInterface[]>
-            (`${_apiImages}${_apiKeyImages}`)
+            const {data} = await axios.get<imageInterface[]>(`${_apiImages}${_apiKeyImages}`)
 
             return data
         }catch(error){
-            throw new Error(`Somethink went wrong when receiving images: on url ${_apiImages}`);
+            throw new Error(`Somethink went wrong when receiving images: url ${_apiImages}`);
         }
     }
    

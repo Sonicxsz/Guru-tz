@@ -1,14 +1,13 @@
-import styled from 'styled-components'
-import { RootObject } from '../App'
-import { Flex, IconWrapper } from './common'
-import {memo, useEffect, useState, useRef} from 'react'
-import "react-responsive-carousel/lib/styles/carousel.min.css"; 
+import {memo} from 'react';
+import styled from 'styled-components';
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { Flex, IconWrapper, PositonAbsWrapper } from './common';
 import { Carousel } from 'react-responsive-carousel';
-import dataService from '../service/dataService'
-import axios from 'axios'
-import DeleveryIcon from './icons/DeleveryIcon';
-import ShieldIcon from './icons/ShieldIcon';
-
+import {ReactComponent as RaitingIcon} from '../assets/svg/RaitingIcon.svg';
+import {ReactComponent as HeartIcon} from '../assets/svg/HeartIcon.svg';
+import {ReactComponent as ShieldIcon} from '../assets/svg/ShieldIcon.svg';
+import {ReactComponent as DeleveryIcon} from '../assets/svg/DeleveryIcon.svg';
+import { RootObject } from '../hooks/useFetchData';
 
 export interface imageInterface {
     id: string
@@ -16,8 +15,6 @@ export interface imageInterface {
         small:string
     }
 }
-
-
 
 function Card({title, seen, price, oldPrice, locality, date, images}:RootObject) {
     
@@ -32,16 +29,25 @@ function Card({title, seen, price, oldPrice, locality, date, images}:RootObject)
                         return <Image key={i.id} src={i.urls.small} />
                     })}
                 </Carousel>
-
+                <PositonAbsWrapper>
+                    <Flex fd='column' justify='flex-end'  gap='8px'>
+                        <IconWrapper color='#fff'>
+                            <RaitingIcon/>   
+                        </IconWrapper>
+                        <IconWrapper color='#fff'>  
+                            <HeartIcon />
+                        </IconWrapper>
+                    </Flex>
+                </PositonAbsWrapper>
             </Slider>
-           
+            
             <CardInfoBlock>
                 <Flex>
                     <Flex fd='column'>
                         <Price >{oldPrice} ₽</Price>
                         <Price actual>{price} ₽</Price>
                     </Flex>
-                    <Flex gap='8px'>
+                    <Flex gap='12px'>
                         <IconWrapper>
                             <DeleveryIcon/>   
                         </IconWrapper>
@@ -81,6 +87,7 @@ const Image = styled.img`
     height: 260px;
     background-color: #63c6f0;
     border-radius: 8px 8px 0 0;
+    object-fit: cover;
     
 `
 const Slider = styled.div<{width?: string, transX?: string}>`
