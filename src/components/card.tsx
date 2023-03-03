@@ -92,8 +92,6 @@ const Image = styled.img`
 `
 const Slider = styled.div<{width?: string, transX?: string}>`
     display: flex;
-    height: 260px;
-    width: 224px;
     border-radius: 8px 8px 0 0;
     transform:${({transX}) => transX ? `translateX(${transX})` : 'translateX(0)'};
     
@@ -101,15 +99,14 @@ const Slider = styled.div<{width?: string, transX?: string}>`
 
 const Price = styled.p<{actual?: boolean}>`
     margin: 0;
-    font-style: normal;
+    margin-top: ${({actual}) => actual ? '5px' : '1px'};
     font-weight: 400;
     font-size:  ${({actual}) => actual ? '22px' : '14px'};
     line-height: 16px;
-    color: #5A5A5A;
+    color:${({actual}) => actual ? '#2C2C2C' : '#5A5A5A'};
     text-decoration: ${({actual}) => actual ? 'none' : 'line-through'};
 `
 const CardTitle = styled.p`
-    font-style: normal;
     font-weight: 500;
     font-size: 14px;
     line-height: 16px;
@@ -117,7 +114,6 @@ const CardTitle = styled.p`
 `
 
 const CardInfo = styled.span`
-    font-style: normal;
     font-weight: 400;
     font-size: 12px;
     line-height: 14px;
@@ -132,7 +128,6 @@ const SeenInfo = styled.div`
     height: 24px;
     background: rgba(44, 44, 44, 0.74);
     border-radius: 8px;
-    font-style: normal;
     font-weight: 400;
     font-size: 12px;
     text-align: center;

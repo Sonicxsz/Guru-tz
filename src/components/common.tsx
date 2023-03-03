@@ -19,7 +19,6 @@ export const Container = styled.div`
 `
 
 export const MainTitle = styled.h2`
-    font-style: normal;
     font-weight: 700;
     font-size: 22px;
     line-height: 25px;
