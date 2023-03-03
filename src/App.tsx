@@ -13,6 +13,7 @@ export interface RootObject {
   seen: boolean;
   locality: string;
   date: number;
+  img?: []
 }
 
 function App() {

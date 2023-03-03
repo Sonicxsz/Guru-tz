@@ -1,12 +1,34 @@
 import styled from 'styled-components'
 import { RootObject } from '../App'
 import { Flex } from './common'
-import {memo} from 'react'
+import {memo, useEffect, useState} from 'react'
+import dataService from '../service/dataService'
+import axios from 'axios'
+
+
+export interface imageInterface {
+    id: string
+    urls: {
+        small:string
+    },
+    url: string
+}
+
 function Card({title, seen, price, oldPrice, locality, date}:RootObject) {
+    const [images, setImages] = useState([]);
+    
+ 
+
     return (
         <CardWrapper seen={seen}>
             {seen && <SeenInfo>Просмотрено</SeenInfo>}
-            <Image />
+            <Slider width={'672px'}>
+                
+                {/* {images.map(i => {
+                    return <Image key={i.id} src={i.url}/>
+                })} */}
+            </Slider>
+           
             <CardInfoBlock>
                 <Flex>
                     <div>
@@ -41,10 +63,18 @@ const CardInfoBlock = styled.div`
 `
 
 const Image = styled.img`
-    width: 224px;
+    min-width: 224px;
     height: 260px;
     background-color: #63c6f0;
     border-radius: 8px 8px 0 0;
+    
+`
+const Slider = styled.div<{width?: string}>`
+    display: flex;
+    width: ${({width}) => width ? width : '224px'};
+    border-radius: 8px 8px 0 0;
+    transform: translateX(-224px);
+    
 `
 
 const Price = styled.p<{actual?: boolean}>`
