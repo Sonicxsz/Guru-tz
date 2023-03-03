@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import Card from './components/card';
+import Card, { imageInterface } from './components/card';
 import { CenterWrapper, Container, Flex, MainTitle, MoreButton, Wrapper } from './components/common';
 import ArrowIcon from './components/icons/ArrowIcon';
 import dataService from './service/dataService';
@@ -13,21 +13,25 @@ export interface RootObject {
   seen: boolean;
   locality: string;
   date: number;
-  img?: []
+  images?: imageInterface[]
 }
 
 function App() {
     const [items, setItems] = useState<RootObject[]>([])
     const [offset, setOffset] = useState(1);
-    
-    const {getData, loading, isEnd} = dataService();
+    const [images, setImages] = useState<imageInterface[]>([])
+    const {getData, getImages, loading, isEnd} = dataService();
    
     const handleIncOffset = () => {
         setOffset(offset => ++offset)
     }
 
     useEffect(() => {
-        getData(offset).then(data => setItems([...items, ...data]))
+        getImages().then(data => setImages(data))
+    },[])
+
+    useEffect(() => {
+        getData(offset).then(data => data && setItems([...items, ...data]))
     }, [offset])
 
     const showBtnOrMess = !isEnd  
@@ -40,6 +44,7 @@ function App() {
             <Wrapper>
                 {items.map((i) => {
                     return  <Card id={i.id}
+                        images={images}
                         key={i.id}
                         seen={i.seen} 
                         locality={i.locality} 
@@ -51,7 +56,7 @@ function App() {
                 })}
             </Wrapper>
             <Flex justify='flex-end' margin='16px'>
-                {loading && <Spinner/>}
+                {loading && <CenterWrapper><Spinner/></CenterWrapper>}
                 {showBtnOrMess}
             </Flex>
             

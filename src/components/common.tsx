@@ -1,5 +1,12 @@
 import styled from "styled-components";
 
+interface IFlex {
+    gap?: string,
+    justify?: string,
+    margin?:string,
+    fd?:string
+}
+
 export const Container = styled.div`
     display: flex;
     flex-direction: column;
@@ -28,11 +35,13 @@ export const Wrapper = styled.div`
     margin: 0 auto;
 `
 
-export const Flex = styled.div<{gap?: string, justify?: string, margin?:string}>`
+export const Flex = styled.div<IFlex>`
     display: flex;
     gap: ${({gap}) => gap ? gap : '0'};
     justify-content:${({justify}) => justify ? justify : 'space-between'};
     margin: ${({margin}) => margin ? margin : '0'};
+    flex-direction: ${({fd}) => fd ? fd : 'row'};
+    color: red;
 `
 
 export const MoreButton = styled.button<{dis?:boolean}>`
@@ -60,3 +69,13 @@ export const CenterWrapper = styled.div`
     left: 50%;
     transform: translateX(-50%);
 `
+
+export const IconWrapper = styled.div`
+    color:${({color}) => color ? color : '#C7C7C7'};
+    cursor: pointer;
+    transition: color 0.2s linear;
+    :hover{
+        color: #03c516
+    }
+`
+

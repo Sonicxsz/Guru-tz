@@ -1,40 +1,54 @@
 import styled from 'styled-components'
 import { RootObject } from '../App'
-import { Flex } from './common'
-import {memo, useEffect, useState} from 'react'
+import { Flex, IconWrapper } from './common'
+import {memo, useEffect, useState, useRef} from 'react'
+import "react-responsive-carousel/lib/styles/carousel.min.css"; 
+import { Carousel } from 'react-responsive-carousel';
 import dataService from '../service/dataService'
 import axios from 'axios'
+import DeleveryIcon from './icons/DeleveryIcon';
+import ShieldIcon from './icons/ShieldIcon';
 
 
 export interface imageInterface {
     id: string
     urls: {
         small:string
-    },
-    url: string
+    }
 }
 
-function Card({title, seen, price, oldPrice, locality, date}:RootObject) {
-    const [images, setImages] = useState([]);
+
+
+function Card({title, seen, price, oldPrice, locality, date, images}:RootObject) {
     
- 
 
     return (
         <CardWrapper seen={seen}>
             {seen && <SeenInfo>Просмотрено</SeenInfo>}
-            <Slider width={'672px'}>
+            <Slider>
                 
-                {/* {images.map(i => {
-                    return <Image key={i.id} src={i.url}/>
-                })} */}
+                <Carousel showThumbs={false} showStatus={false}>
+                    {images && images.map(i => {
+                        return <Image key={i.id} src={i.urls.small} />
+                    })}
+                </Carousel>
+
             </Slider>
            
             <CardInfoBlock>
                 <Flex>
-                    <div>
+                    <Flex fd='column'>
                         <Price >{oldPrice} ₽</Price>
                         <Price actual>{price} ₽</Price>
-                    </div>
+                    </Flex>
+                    <Flex gap='8px'>
+                        <IconWrapper>
+                            <DeleveryIcon/>   
+                        </IconWrapper>
+                        <IconWrapper>
+                            <ShieldIcon />
+                        </IconWrapper>
+                    </Flex>
                 </Flex>
                 <CardTitle>{title}</CardTitle>
                 <Flex>
@@ -63,17 +77,18 @@ const CardInfoBlock = styled.div`
 `
 
 const Image = styled.img`
-    min-width: 224px;
+    width: 224px;
     height: 260px;
     background-color: #63c6f0;
     border-radius: 8px 8px 0 0;
     
 `
-const Slider = styled.div<{width?: string}>`
+const Slider = styled.div<{width?: string, transX?: string}>`
     display: flex;
-    width: ${({width}) => width ? width : '224px'};
+    height: 260px;
+    width: 224px;
     border-radius: 8px 8px 0 0;
-    transform: translateX(-224px);
+    transform:${({transX}) => transX ? `translateX(${transX})` : 'translateX(0)'};
     
 `
 
@@ -116,6 +131,7 @@ const SeenInfo = styled.div`
     text-align: center;
     color: #FFFFFF;
     position: absolute;
+    z-index: 1000;
     top: 12px;
     left: 50%;
     transform: translateX(-50%);

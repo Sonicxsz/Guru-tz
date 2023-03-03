@@ -7,7 +7,6 @@ function ArrowIcon() {
                 stroke="#00A0AB" stroke-width="2" 
                 stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-
     )
 }
 
